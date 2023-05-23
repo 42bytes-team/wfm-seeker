@@ -1,0 +1,220 @@
+@use 'warframe/functions';
+@use 'warframe/mixins';
+
+.seeker {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+  background: var(--color_background--darker);
+  padding: 5px;
+  border: 1px solid var(--color_input_border);
+  min-height: 46px;
+
+  &.focused {
+    @include mixins.focused-input;
+  }
+
+  &.error {
+    @include mixins.error-input;
+  }
+
+  &.auto-height {
+    min-height: auto;
+  }
+}
+
+.input {
+  transition: functions.combine-transitions((border, box-shadow, background));
+  background: var(--color_input_background);
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .real-input {
+    background: none;
+    width: 100%;
+    z-index: 3;
+    border-radius: 4px;
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+
+    input {
+      color: var(--color_input_text);
+      width: 100%;
+      background: none;
+      border: 1px solid transparent;
+      border-right: 0;
+      outline: none;
+      padding: 0 10px;
+      box-shadow: none;
+      box-sizing: border-box;
+
+      @-moz-document url-prefix('') {
+        // Visual compensation for Firefox
+        padding-bottom: 3px;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .suggestion {
+    color: var(--color_placeholder);
+    position: absolute;
+    left: 12px;
+    align-items: center;
+    display: flex;
+    user-select: none;
+
+    @-moz-document url-prefix('') {
+      // Visual compensation for Firefox
+      padding-bottom: 3px;
+    }
+
+    .invisible {
+      color: transparent;
+    }
+  }
+}
+
+.action-button {
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-left: 1px solid var(--color_input_text);
+  color: var(--color_input_text);
+  border-radius: 0;
+  background: none;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+
+  :global(.wfm-icon) {
+    margin: auto;
+    transition: transform 0.1s ease-out;
+  }
+
+  &.rotate {
+    :global(.wfm-icon) {
+      transform: scaleY(-1);
+    }
+  }
+
+  &:hover {
+    outline: none;
+    color: var(--color_link--hover);
+    border-left: 1px solid var(--color_link--hover);
+  }
+
+  &:focus,
+  &:active {
+    outline: none;
+    color: var(--color_link--active);
+    border-left: 1px solid var(--color_link--active);
+  }
+
+  &.clear-all {
+    &:hover {
+      outline: none;
+      color: var(--color_link_red--hover);
+      border-left: 1px solid var(--color_link_red--hover);
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
+      color: var(--color_link_red--active);
+      border-left: 1px solid var(--color_link_red--active);
+    }
+  }
+}
+
+.dropdown {
+  background: var(--color_background--light);
+  border-top: 1px solid var(--color_border--light);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 5px 15px -5px rgb(0 0 0 / 75%);
+  box-sizing: content-box;
+  z-index: 2000;
+
+  ul {
+    border-bottom: 1px solid var(--color_border--light);
+    position: relative;
+    list-style: none;
+    margin: 0 0 5px;
+    padding: 0 5px;
+    overflow-y: auto;
+    max-height: 220px;
+
+    &::-webkit-scrollbar {
+      background: #071013;
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #44575f;
+      border: 1px solid black;
+      border-radius: 5px;
+    }
+  }
+
+  li.empty {
+    padding: 10px;
+    text-align: center;
+
+    // color: var(--color_placeholder);
+  }
+
+  li.entry {
+    color: var(--color_text);
+    padding: 5px 10px;
+    cursor: pointer;
+    @include mixins.no-select;
+    transition: functions.combine-transitions((background, color));
+
+    b {
+      color: var(--color_input_text--highlight);
+    }
+  }
+
+  li.entry:hover,
+  li.entry.selected {
+    background: var(--color_input_background--selected);
+    color: var(--color_link--hover);
+  }
+
+  li.entry:focus {
+    color: var(--color_link--active);
+  }
+
+  li.group {
+    color: var(--color_dropdown_group-name);
+    border-bottom: 1px solid var(--color_dropdown_group-border);
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 12px;
+  }
+
+  li.divider {
+    border-bottom: 1px solid var(--color_border--light);
+    margin-top: 0;
+    padding: 0;
+  }
+
+  li.divider:nth-child(1) {
+    border-bottom: none;
+  }
+}
