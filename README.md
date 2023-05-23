@@ -39,6 +39,6 @@ type ItemShort = {
 
 Suggestions in dropdown list are sorted by group and then by number of matched chars, then alphabetically.
 
-group named `top` will be always on top
-group named `bottom` always at bottom
-rest of groups will be sorted alphabetically
+group named `top` will be always on top  
+group named `bottom` always at bottom  
+rest of groups will be sorted alphabetically  
